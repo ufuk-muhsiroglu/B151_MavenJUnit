@@ -1,0 +1,22 @@
+//sendKeysAlert
+public void sendKeysAlert(String text){
+    driver.switchTo().alert().sendKeys(text);
+}
+
+//DropDown VisibleText
+public void selectVisibleText(WebElement ddm, String text){
+    Select select = new Select(ddm);
+    select.selectByVisibleText(text);
+}
+
+//DropDown Index
+public void selectIndex(WebElement ddm,int index){
+    Select select = new Select(ddm);
+    select.selectByIndex(index);
+}
+
+//DropDown Value
+public void selectValue(WebElement ddm,String value){
+    Select select = new Select(ddm);
+    select.selectByValue(value);
+}
