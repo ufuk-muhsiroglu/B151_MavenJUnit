@@ -1,15 +1,21 @@
 package techproed.utilities;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public abstract class TestBase {
@@ -40,6 +46,28 @@ public abstract class TestBase {
             throw new RuntimeException(e);
         }
     }
+
+    //Selenium Wait/Explicit Wait
+    //visibilityOf(element) methodu
+    public void visibleWait(WebElement element,int saniye){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(saniye));
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    //visibilityOfElementLocated(locator) methodu
+    public void visibleWait(By locator, int saniye){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(saniye));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    //AlertWait methodu
+    public void alertWait(int saniye){
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(saniye));
+        wait.until(ExpectedConditions.alertIsPresent());
+    }
+
+
+
 
     //AcceptAlert
     public void acceptAlert(){
@@ -86,6 +114,18 @@ public abstract class TestBase {
     //SwitchTo Window-2
     public void switchToWindow2(int index){
         driver.switchTo().window(driver.getWindowHandles().toArray()[index].toString());
+    }
+
+    //Tum sayfa Resmi (ScreenShot)
+       public void tumSayfaResmi(){
+        String tarih = new SimpleDateFormat("_hh_mm_ss_ddMMyyyy").format(new Date());
+        String dosyaYolu = "src/test/java/techproed/TumSayfaResmi/screenShot" + tarih + ".jpeg";
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        try {
+            FileUtils.copyFile(ts.getScreenshotAs(OutputType.FILE),new File(dosyaYolu));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
